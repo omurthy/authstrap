@@ -13,8 +13,12 @@ export class AppComponent {
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
+  showTiredMenu =false;
   username?: string;
   items: MenuItem[] = [];
+  itemsRight: MenuItem[] = [];
+  home: MenuItem ={};
+
   constructor(private tokenStorageService: TokenStorageService) { }
   
   ngOnInit(): void {
@@ -29,6 +33,32 @@ export class AppComponent {
 
       this.username = user.username;
     }
+
+    this.itemsRight = [ 
+      {
+        label: 'Home',
+        icon: 'pi pi-fw pi-align-justify',
+        routerLink: ['/home'],
+      },
+      {
+        label: 'User',
+        icon: 'pi pi-fw pi-user',
+        routerLink: ['/user'],
+       },
+      {
+        label: 'Admin Board',
+        icon: 'pi pi-fw pi-calendar', 
+        routerLink: ['/admin'], 
+        visible: this.showAdminBoard 
+      },
+      {
+        label: 'Logout',
+        icon: 'pi pi-fw pi-calendar', 
+        routerLink: ['/logout'],  
+        visible: true
+      }
+    ];
+
     this.items = [ 
       {
         label: 'Home',
@@ -47,6 +77,7 @@ export class AppComponent {
         visible: this.showAdminBoard 
       }
     ];
+    this.home = {icon: 'pi pi-home', routerLink: '/home'};
   }
 
   checkAdminBoard(){
@@ -64,5 +95,8 @@ export class AppComponent {
   logout(): void {
     this.tokenStorageService.signOut();
     window.location.reload();
+  }
+  visibleLogout(){
+    this.showTiredMenu = true;
   }
 }

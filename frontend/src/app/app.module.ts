@@ -40,6 +40,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import {MenubarModule} from 'primeng/menubar'; 
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {CarouselModule} from 'primeng/carousel';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +55,9 @@ import {MenubarModule} from 'primeng/menubar';
     BoardUserComponent
   ],
   imports: [ 
+    CarouselModule,
+    BreadcrumbModule,
+    TieredMenuModule,
     MenubarModule, 
     ImageModule,
     AppRoutingModule,

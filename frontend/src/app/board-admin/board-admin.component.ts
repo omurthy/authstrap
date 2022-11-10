@@ -33,8 +33,26 @@ export class BoardAdminComponent implements OnInit {
   statuses: any[] = [];
 
   rowsPerPageOptions = [5, 10, 20];
-
-  constructor(private userService: UserService,private productService: ProductService, private messageService: MessageService) { }
+  responsiveOptions ;
+  constructor(private userService: UserService,private productService: ProductService, private messageService: MessageService) {
+    this.responsiveOptions = [
+        {
+            breakpoint: '1024px',
+            numVisible: 3,
+            numScroll: 3
+        },
+        {
+            breakpoint: '768px',
+            numVisible: 2,
+            numScroll: 2
+        },
+        {
+            breakpoint: '560px',
+            numVisible: 1,
+            numScroll: 1
+        }
+    ];
+   }
 
   ngOnInit(): void {
     this.productService.getProducts().then(data => this.products = data);
