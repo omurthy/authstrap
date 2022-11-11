@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { TokenStorageService } from './_services/token-storage.service';
 
@@ -13,28 +14,34 @@ export class AppComponent {
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
-  showTiredMenu =false;
+  showTiredMenu = false;
+  showLogin = false;
   username?: string;
   items: MenuItem[] = [];
   itemsRight: MenuItem[] = [];
-  home: MenuItem ={};
+  home: MenuItem = {};
 
-  constructor(private tokenStorageService: TokenStorageService) { }
-  
+  constructor(private tokenStorageService: TokenStorageService,private router: Router) { }
+
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-
+    
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
 
+      this.showLogin = false;
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
 
       this.username = user.username;
+    }else{
+      this.showLogin = true;
+      this.showAdminBoard = false;
+      this.showModeratorBoard = false;
     }
 
-    this.itemsRight = [ 
+    this.itemsRight = [
       {
         label: 'Home',
         icon: 'pi pi-fw pi-align-justify',
@@ -44,22 +51,33 @@ export class AppComponent {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         routerLink: ['/user'],
-       },
+      },
+      {
+        label: 'Login',
+        icon: 'pi pi-fw pi-user',
+        routerLink: ['/login'],
+        visible: this.showLogin,
+      },
+      {
+        label: 'Profile Settings',
+        icon: 'pi pi-fw pi-user',
+        routerLink: ['/profile'],
+      },
       {
         label: 'Admin Board',
-        icon: 'pi pi-fw pi-calendar', 
-        routerLink: ['/admin'], 
-        visible: this.showAdminBoard 
+        icon: 'pi pi-fw pi-calendar',
+        routerLink: ['/admin'],
+        visible: this.showAdminBoard
       },
       {
         label: 'Logout',
-        icon: 'pi pi-fw pi-calendar', 
-        routerLink: ['/logout'],  
-        visible: true
+        icon: 'pi pi-fw pi-calendar',
+        command: ()=>  this.logout(),
+        visible: !this.showLogin
       }
     ];
 
-    this.items = [ 
+    this.items = [
       {
         label: 'Home',
         icon: 'pi pi-fw pi-align-justify',
@@ -69,34 +87,41 @@ export class AppComponent {
         label: 'User',
         icon: 'pi pi-fw pi-user',
         routerLink: ['/user'],
-       },
+        visible: !this.showLogin,
+      },
       {
         label: 'Admin Board',
-        icon: 'pi pi-fw pi-calendar', 
-        routerLink: ['/admin'], 
-        visible: this.showAdminBoard 
+        icon: 'pi pi-fw pi-calendar',
+        routerLink: ['/admin'],
+        visible: this.showAdminBoard
       }
     ];
-    this.home = {icon: 'pi pi-home', routerLink: '/home'};
+    this.home = { icon: 'pi pi-home', routerLink: '/home' };
   }
 
-  checkAdminBoard(){
+  checkAdminBoard() {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
-
+      this.showLogin = false;
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
 
       this.username = user.username;
+    }else{
+      this.showLogin = true;
+      this.showAdminBoard = false;
+      this.showModeratorBoard = false;
     }
   }
 
   logout(): void {
     this.tokenStorageService.signOut();
+    this.showLogin = true;
+    //this.router.navigate(['/login', 'login']);
     window.location.reload();
   }
-  visibleLogout(){
+  visibleLogout() {
     this.showTiredMenu = true;
   }
 }
