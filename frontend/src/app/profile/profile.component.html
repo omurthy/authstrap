@@ -1,9 +1,4 @@
-<p-card>
-  
-    <h3>
-      <strong>{{ currentUser.username }}</strong> Profile
-    </h3>
-  
+<p-card header="Username : {{ currentUser.username }}">
   <p>
     <strong>Token:</strong>
     {{ currentUser.accessToken.substring(0, 20) }} ...

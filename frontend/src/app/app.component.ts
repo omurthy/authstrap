@@ -41,12 +41,7 @@ export class AppComponent {
       this.showModeratorBoard = false;
     }
 
-    this.itemsRight = [
-      {
-        label: 'Home',
-        icon: 'pi pi-fw pi-align-justify',
-        routerLink: ['/home'],
-      },
+    this.itemsRight = [ 
       {
         label: 'User',
         icon: 'pi pi-fw pi-user',
@@ -59,9 +54,16 @@ export class AppComponent {
         visible: this.showLogin,
       },
       {
+        label: 'Register',
+        icon: 'pi pi-fw pi-user',
+        routerLink: ['/register'],
+        visible: this.showLogin,
+      },
+      {
         label: 'Profile Settings',
         icon: 'pi pi-fw pi-user',
         routerLink: ['/profile'],
+        visible: !this.showLogin,
       },
       {
         label: 'Admin Board',
@@ -82,12 +84,18 @@ export class AppComponent {
         label: 'Home',
         icon: 'pi pi-fw pi-align-justify',
         routerLink: ['/home'],
+      }, 
+      {
+        label: 'Login',
+        icon: 'pi pi-fw pi-user',
+        routerLink: ['/login'],
+        visible: this.showLogin,
       },
       {
-        label: 'User',
+        label: 'Register',
         icon: 'pi pi-fw pi-user',
-        routerLink: ['/user'],
-        visible: !this.showLogin,
+        routerLink: ['/register'],
+        visible: this.showLogin,
       },
       {
         label: 'Admin Board',

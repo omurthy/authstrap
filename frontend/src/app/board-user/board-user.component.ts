@@ -11,13 +11,11 @@ export class BoardUserComponent implements OnInit {
   content?: string;
   roles: string[] = [];
   currentUser: any;
-  isLoggedIn = false;
   constructor(private userService: UserService,private tokenStorage : TokenStorageService) { 
   }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
       this.currentUser = this.tokenStorage.getUser();
       this.roles = this.tokenStorage.getUser().roles;
     } 
