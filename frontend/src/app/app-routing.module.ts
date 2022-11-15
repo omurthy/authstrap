@@ -9,14 +9,15 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 
+import { AuthguardService } from "./_services/authguard.service";
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'user', component: BoardUserComponent },
-  { path: 'mod', component: BoardModeratorComponent },
-  { path: 'admin', component: BoardAdminComponent },
+  { path: 'profile', component: ProfileComponent,canActivate: [AuthguardService] },
+  { path: 'user', component: BoardUserComponent,canActivate: [AuthguardService] },
+  { path: 'mod', component: BoardModeratorComponent,canActivate: [AuthguardService] },
+  { path: 'admin', component: BoardAdminComponent,canActivate: [AuthguardService] },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

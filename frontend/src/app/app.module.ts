@@ -43,6 +43,7 @@ import {MenubarModule} from 'primeng/menubar';
 import {TieredMenuModule} from 'primeng/tieredmenu';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {CarouselModule} from 'primeng/carousel';
+import { AuthguardService } from './_services/authguard.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +90,7 @@ import {CarouselModule} from 'primeng/carousel';
     ConfirmDialogModule,
     InputTextareaModule
   ],
-  providers: [authInterceptorProviders,MessageService],
+  providers: [authInterceptorProviders,MessageService,AuthguardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
