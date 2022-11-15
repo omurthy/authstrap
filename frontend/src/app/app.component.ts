@@ -127,7 +127,11 @@ export class AppComponent {
     this.tokenStorageService.signOut();
     this.showLogin = true;
     //this.router.navigate(['/login', 'login']);
-    window.location.reload();
+
+    this.router.navigate(['login'])
+    .then(() => {
+      window.location.reload();
+    });
   }
   visibleLogout() {
     this.showTiredMenu = true;

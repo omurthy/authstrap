@@ -1,5 +1,6 @@
 import { trigger } from '@angular/animations';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ThisReceiver } from '@angular/compiler';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Prying, PryingTimes } from '../_models/prying';
 import { PrayingService } from '../_services/praying.service';
@@ -12,32 +13,41 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   content?: string;
-  cols: any[] = []; 
-  prayingList: any[]=[];
-  constructor(private userService: UserService,private prayingService: PrayingService) { }
+  cols: any[] = [];
+  prayingList: any[] = [];
+  reloadCounter: number = 0;
+  constructor(private userService: UserService, private prayingService: PrayingService) { }
+
   @Output() prayingEvent = new EventEmitter<string>();
   ngOnInit(): void {
+    //this.reloadPage();
     this.getPrayerTimes()
     this.getPublicContents()
     this.cols = [
       { field: 'vakit', header: 'Vakit' },
-      { field: 'saat', header: 'Saat' }, 
-  ];
+      { field: 'saat', header: 'Saat' },
+    ];
   }
 
-  
-  getPrayerTimes(){
-    
+  getPrayerTimes() {
+
     this.prayingService.getPrayingList().subscribe({
-      next:data =>{
-        this.prayingList = data.result 
+      next: data => {
+        this.prayingList = data.result
       },
       error: err => {
         this.prayingList = JSON.parse(err.error).message;
       }
     })
   }
-  getPublicContents(){
+
+  reloadPage() {
+    if(this.reloadCounter<=1){
+      window.location.reload();
+      this.reloadCounter++; 
+    }
+  }
+  getPublicContents() {
     this.userService.getPublicContent().subscribe({
       next: data => {
         this.content = data;

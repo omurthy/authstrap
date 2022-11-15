@@ -2,6 +2,7 @@ import { Component, Directive, Input, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service'; 
 import { PrayingService } from '../_services/praying.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
  
 @Component({
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
   @Input() prayingList! :any;
   password!: string;
    
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService,private prayingService: PrayingService) { }
+  constructor(private authService: AuthService,private route:ActivatedRoute,private router:Router, private tokenStorage: TokenStorageService,private prayingService: PrayingService) { }
    
   ngOnInit(): void {
     if(this.prayingList==null || this.prayingList.length==0)
@@ -53,7 +54,10 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+        this.router.navigate(['home'])
+        .then(() => {
+          window.location.reload();
+        });
       },
       error: err => {
         this.errorMessage = err.error.message;
@@ -62,7 +66,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  reloadPage(): void {
+  reloadPage(): void { 
     window.location.reload();
   }
 
