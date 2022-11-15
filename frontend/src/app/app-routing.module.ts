@@ -11,7 +11,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 
 import { AuthguardService } from "./_services/authguard.service";
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent ,canActivate: [AuthguardService]},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent,canActivate: [AuthguardService] },

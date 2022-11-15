@@ -16,7 +16,7 @@ export class AuthguardService implements CanActivate{
     if(logged!==null){
       return true;
     }
-    this.router.navigate(['home']);
+    this.router.navigate(['login']);
     throw new Error('Method not implemented.');
   }
 }
