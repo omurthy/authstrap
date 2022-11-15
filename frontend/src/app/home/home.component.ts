@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserService,private prayingService: PrayingService) { }
   @Output() prayingEvent = new EventEmitter<string>();
   ngOnInit(): void {
-    
+    this.getPrayerTimes()
     this.getPublicContents()
     this.cols = [
       { field: 'vakit', header: 'Vakit' },
@@ -26,6 +26,17 @@ export class HomeComponent implements OnInit {
   }
 
   
+  getPrayerTimes(){
+    
+    this.prayingService.getPrayingList().subscribe({
+      next:data =>{
+        this.prayingList = data.result 
+      },
+      error: err => {
+        this.prayingList = JSON.parse(err.error).message;
+      }
+    })
+  }
   getPublicContents(){
     this.userService.getPublicContent().subscribe({
       next: data => {
